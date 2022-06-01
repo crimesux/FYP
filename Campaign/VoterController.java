@@ -51,7 +51,7 @@ public class VoterController {
 	// delete voter rest api
 	@DeleteMapping("/voter/{voterID}")
 	public ResponseEntity<Map<String, Boolean>> deleteOption(@PathVariable Long voterID){
-		Option option = voterRepository.findById(voterID);
+		Voter voter = voterRepository.findById(voterID);
 		
 		voterRepository.delete(voter);
 		Map<String, Boolean> response = new HashMap<>();
