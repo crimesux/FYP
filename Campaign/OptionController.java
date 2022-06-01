@@ -37,7 +37,8 @@ public class OptionController {
 	// delete option rest api
 	@DeleteMapping("/option/{optionID}")
 	public ResponseEntity<Map<String, Boolean>> deleteOption(@PathVariable Long optionID){
-		Option option = optionRepository.findById(optionID);
+		Option option = optionRepository.findById(optionID)
+				.orElseThrow(() -> new ResourceNotFoundException(""));
 		
 		optionRepository.delete(option);
 		Map<String, Boolean> response = new HashMap<>();
