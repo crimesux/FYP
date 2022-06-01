@@ -44,14 +44,15 @@ public class VoterController {
 	@GetMapping("/voter/{voterID}")
 	public ResponseEntity<Voter> getVoterById(@PathVariable Long voterID) {
 		Voter voter = voterRepository.findById(voterID)
-				.orElseThrow(() -> new ResourceNotFoundException("Voter " + campaignID + " does not exist"));
+				.orElseThrow(() -> new ResourceNotFoundException("Voter " + voterID + " does not exist"));
 		return ResponseEntity.ok(voter);
 	}
 	
 	// delete voter rest api
 	@DeleteMapping("/voter/{voterID}")
 	public ResponseEntity<Map<String, Boolean>> deleteOption(@PathVariable Long voterID){
-		Voter voter = voterRepository.findById(voterID);
+		Voter voter = voterRepository.findById(voterID)
+				.orElseThrow(() -> new ResourceNotFoundException(""));
 		
 		voterRepository.delete(voter);
 		Map<String, Boolean> response = new HashMap<>();
