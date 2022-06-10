@@ -1,13 +1,14 @@
 import React from "react";
-import UserService from "../service/UserService";
+import UserService from "../service/ResultService";
 import { VictoryPie } from "victory-pie";
+
 
 class UserComponent extends React.Component
 {
     constructor(props)
     {
         super(props)
-        this.state={campaigns:[]}
+        this.state={campaigns:[],campaign:[]}
     }
 
     componentDidMount()
@@ -34,13 +35,13 @@ class UserComponent extends React.Component
                 <tbody>
                     {
                         this.state.campaigns.map(
-                            campaign=><tr key ={campaign.id}>
-                                <td>{campaign.id}</td>
-                                <td>{campaign.qn}</td>
-                                <td>{campaign.first}</td>
-                                <td>{campaign.last}</td>
+                            result=><tr key ={result.id}>
+                                <td>{result.id}</td>
+                                <td>{result.qn}</td>
+                                <td>{result.first}</td>
+                                <td>{result.last}</td>
                                 <VictoryPie
-                                data={[{x:"first",y:campaign.first},{x:"last",y:campaign.last}]}
+                                data={[{x:"first",y:result.first},{x:"last",y:result.last}]}
                                 colorScale={["blue", "red"]}
                                 radius={50}
                               />

@@ -7,8 +7,8 @@ const Navbar = () => {
     <>
       <Nav>
         <NavMenu>
-          <NavLink to="/login" activeStyle>
-            Login
+          <NavLink to="/vote" activeStyle>
+            Vote
           </NavLink>
           <NavLink to="/UserComponent" activeStyle>
             Campaign

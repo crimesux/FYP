@@ -8,10 +8,12 @@ const login = () => {
           <p>Username</p>
           <input type="text" />
         </label>
+        <div>
         <label>
           <p>Password</p>
           <input type="password" />
         </label>
+        </div>
         <div>
           <button type="submit">Submit</button>
         </div>
