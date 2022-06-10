@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route}
 import UserComponent from './components/UserComponent';
 import Home from './components';
 import Login from './components/login';
+import Vote from './components/vote';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
     <Routes>
     <Route exact path='/'  element={<Home />} />
     <Route  path='/login' element={<Login />} />
+    <Route  path='/vote' element={<Vote />} />
     <Route  path='/UserComponent' element={<UserComponent />} />
     </Routes>
     </Router>
