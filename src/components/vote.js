@@ -1,25 +1,25 @@
 import React from "react";
-import UserService from "../service/ResultService";
-import CampaignService from "../service/CampaignService";
-
+import OptionService from "../services/OptionService";
+import CampaignService from "../services/CampaignService";
 class vote extends React.Component
 {  
   constructor(props)
     {
         super(props)
-        this.state={choice:"" , campaign:[]}
+        this.state={id: this.props.match.params.id, choice:"" , campaign:[], options:[]}
     }
 
     componentDidMount()
     {
-        CampaignService.getCampaignId(2).then((response)=>{this.setState({campaign:response.data})
-    });//update the id to make it dynamic
+        CampaignService.getCampaignId(this.state.id).then((response)=>{this.setState({campaign:response.data})
+    });
+        OptionService.getOptionsByCampaign(this.state.id).then((response)=>{this.setState({options:response.data})
+    });
     }
 
   update=()=>
   {
-    console.log(this.state.choice);
-    UserService.updateVote(2,this.state.choice)//update the id to make it dynamic
+    OptionService.updateVote(this.state.id,this.state.choice)
   }  
 
   setter(event) 
@@ -31,13 +31,25 @@ class vote extends React.Component
 render() {
 
   return (     
-    <div onChange={this.setter.bind(this)}>
-      
-      <input type="radio" value="first" name="option"/> {this.state.campaign.option1} <br></br>
-      <input type="radio" value="last" name="option"/> {this.state.campaign.option2}
-      <br></br><button className="btn" onClick={this.update}>Submit</button>
-      
+    <div>
+      <h1>
+      {this.state.campaign.campaignName}
+      </h1>
+      <body>
+      {
+        this.state.options.map((item) => 
+        <p key={item}>
+        <input 
+        type="radio"
+        name="option"
+        value={item.optionDesc} 
+        onClick={this.setter.bind(this)}/> {item.optionDesc} 
+        </p>
+        )}
+      <br></br><button className="btn" onClick={this.update}>Submit</button>     
+      </body>
       </div>
+      
 
     )
     
