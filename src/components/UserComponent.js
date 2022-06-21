@@ -1,22 +1,21 @@
 import React from "react";
-import UserService from "../service/ResultService";
+import OptionService from "../services/OptionService";
 import { VictoryPie } from "victory-pie";
-
+import Chart from 'react-apexcharts'
 
 class UserComponent extends React.Component
 {
     constructor(props)
     {
         super(props)
-        this.state={campaigns:[],campaign:[]}
+        this.state={id: this.props.match.params.id, options:[]}
     }
 
     componentDidMount()
     {
-        UserService.getCampaign().then((response)=>{this.setState({campaigns:response.data})
+        OptionService.getOptionsByCampaign(this.state.id).then((response)=>{this.setState({options:response.data})
     });
     }
-    
     render()
     {
         return(
@@ -24,32 +23,25 @@ class UserComponent extends React.Component
             <h1 className="text-center">Campaign List</h1>
             <table className="table table-striped">
                 <thead>
-                    <tr>
-                        <td>ID</td>
-                        <td>Question</td>
-                        <td>First</td>
-                        <td>Last</td>
-                        <td>result</td>
-                    </tr>
-                </thead>
+                    {
+                        this.state.options.map(
+                        result=><td key ={result.id}>
+                        <td>{result.optionDesc}</td>
+
+                    </td>
+                    )
+                    }
+                   <td>result</td>
+                </thead>      
                 <tbody>
                     {
-                        this.state.campaigns.map(
-                            result=><tr key ={result.id}>
-                                <td>{result.id}</td>
-                                <td>{result.qn}</td>
-                                <td>{result.first}</td>
-                                <td>{result.last}</td>
-                                <VictoryPie
-                                data={[{x:"first",y:result.first},{x:"last",y:result.last}]}
-                                colorScale={["blue", "red"]}
-                                radius={50}
-                              />
-        
-                            </tr>
+                        this.state.options.map(
+                            result=><td key ={result.id}>
+                            <td>{result.voteCount}</td> 
+                     </td>
                         )
-                    }
-                </tbody>
+                    }         
+                    </tbody>
 
             </table>
 

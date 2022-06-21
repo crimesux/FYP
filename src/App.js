@@ -1,27 +1,43 @@
-import logo from './logo.svg';
 import React from 'react';
 import './App.css';
-import Navbar from './service/index';
-import { BrowserRouter as Router, Routes, Route}
-    from 'react-router-dom';
+import Navbar from './services/index';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import UserComponent from './components/UserComponent';
-import Home from './components';
-import Login from './components/login';
 import Vote from './components/vote';
-
+import HeaderComponent from './components/HeaderComponent';
+import FooterComponent from './components/FooterComponent';
+import ListUserComponent from './components/ListUserComponent';
+import CreateUserComponent from './components/CreateUserComponent';
+import UpdateUserComponent from './components/UpdateUserComponent';
+import ViewUserComponent from './components/ViewUserComponent';
+import ListCampaignComponent from './components/ListCampaignComponent';
+import CreateCampaignComponent from './components/CreateCampaignComponent';
+import UpdateCampaignComponent from './components/UpdateCampaignComponent';
+import ViewCampaignComponent from './components/ViewCampaignComponent';
+import AddOptionComponent from './components/AddOptionComponent';
 function App() {
   return (
-    <div className="App">
-    <Router>
-    <Navbar />
-    <Routes>
-    <Route exact path='/'  element={<Home />} />
-    <Route  path='/login' element={<Login />} />
-    <Route  path='/vote' element={<Vote />} />
-    <Route  path='/UserComponent' element={<UserComponent />} />
-    </Routes>
-    </Router>
-    
+    <div>
+        <Router>
+              <HeaderComponent />
+                <div className="container">
+                     <Switch>
+                          <Route path = "/" exact component = {ListUserComponent}></Route>
+                          <Route path = "/users" component = {ListUserComponent}></Route>
+                          <Route path = "/add-user/:id" component = {CreateUserComponent}></Route>
+                          <Route path = "/view-user/:id" component = {ViewUserComponent}></Route>
+                          <Route path = "/update-user/:id" component = {UpdateUserComponent}></Route> 
+                          <Route path = "/campaigns" component = {ListCampaignComponent}></Route>
+                          <Route path = "/add-campaign/:id" component = {CreateCampaignComponent}></Route>
+                          <Route path = "/view-campaign/:id" component = {ViewCampaignComponent}></Route>
+                          <Route path = "/update-campaign/:id" component = {UpdateCampaignComponent}></Route> 
+                          <Route path = "/add-options" component = {AddOptionComponent}></Route> 
+                          <Route  path='/vote' element={<Vote />} />
+                          <Route  path='/UserComponent' element={<UserComponent />} />   
+                          </Switch>
+                </div>
+              <FooterComponent />
+        </Router>
     </div>
   );
 }
