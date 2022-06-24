@@ -24,6 +24,17 @@ class ListCampaignComponent extends Component {
     editCampaign(id){
         this.props.history.push(`/add-campaign/${id}`);
     }
+    viewResults(id){
+        this.props.history.push(`/result/${id}`);
+    }
+    voteResults(id){
+        this.props.history.push(`/vote/${id}`);
+    }
+    launchCampaign(id){
+        CampaignService.deleteCampaign(id).then( res => {
+            this.setState({campaigns: this.state.campaigns.filter(campaign => campaign.id !== id)});
+        });
+    }
 
     componentDidMount(){
         CampaignService.getCampaigns().then((res) => {
@@ -34,6 +45,7 @@ class ListCampaignComponent extends Component {
     addCampaign(){
         this.props.history.push('/add-campaign/_add');
     }
+    
 
     render() {
         return (
@@ -63,9 +75,12 @@ class ListCampaignComponent extends Component {
                                              <td> {campaign.deadline}</td>
                                              <td> {campaign.campaignStatus}</td>
                                              <td>
-                                                 <button onClick={ () => this.editCampaign(campaign.id)} className="btn btn-info">Update </button>
+                                                 <button onClick={ () => this.viewCampaign(campaign.id)} className="btn btn-info">View </button>
+                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.editCampaign(campaign.id)} className="btn btn-info">Update </button>
+                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.launchCampaign(campaign.id)} className="btn btn-info">Launch </button>
+                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.voteResults(campaign.id)} className="btn btn-info">Vote </button>
+                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.viewResults(campaign.id)} className="btn btn-info">Results </button>
                                                  <button style={{marginLeft: "10px"}} onClick={ () => this.deleteCampaign(campaign.id)} className="btn btn-danger">Delete </button>
-                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.viewCampaign(campaign.id)} className="btn btn-info">View </button>
                                              </td>
                                         </tr>
                                     )

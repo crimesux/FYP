@@ -1,9 +1,6 @@
 import React from 'react';
 import './App.css';
-import Navbar from './services/index';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import UserComponent from './components/UserComponent';
-import Vote from './components/vote';
 import HeaderComponent from './components/HeaderComponent';
 import FooterComponent from './components/FooterComponent';
 import ListUserComponent from './components/ListUserComponent';
@@ -14,15 +11,17 @@ import ListCampaignComponent from './components/ListCampaignComponent';
 import CreateCampaignComponent from './components/CreateCampaignComponent';
 import UpdateCampaignComponent from './components/UpdateCampaignComponent';
 import ViewCampaignComponent from './components/ViewCampaignComponent';
-import AddOptionComponent from './components/AddOptionComponent';
+import ResultComponent from './components/ResultComponent';
+import vote from './components/vote';
 function App() {
+  
   return (
     <div>
         <Router>
               <HeaderComponent />
                 <div className="container">
-                     <Switch>
-                          <Route path = "/" exact component = {ListUserComponent}></Route>
+                    <Switch> 
+                          <Route path = "/" exact component = {ListCampaignComponent}></Route>
                           <Route path = "/users" component = {ListUserComponent}></Route>
                           <Route path = "/add-user/:id" component = {CreateUserComponent}></Route>
                           <Route path = "/view-user/:id" component = {ViewUserComponent}></Route>
@@ -30,15 +29,14 @@ function App() {
                           <Route path = "/campaigns" component = {ListCampaignComponent}></Route>
                           <Route path = "/add-campaign/:id" component = {CreateCampaignComponent}></Route>
                           <Route path = "/view-campaign/:id" component = {ViewCampaignComponent}></Route>
-                          <Route path = "/update-campaign/:id" component = {UpdateCampaignComponent}></Route> 
-                          <Route path = "/add-options" component = {AddOptionComponent}></Route> 
-                          <Route  path='/vote' element={<Vote />} />
-                          <Route  path='/UserComponent' element={<UserComponent />} />   
-                          </Switch>
+                          <Route path = "/update-campaign/:id" component = {UpdateCampaignComponent}></Route>
+                          <Route path = "/result/:id" component = {ResultComponent}></Route>
+                          <Route path = "/vote/:id" component = {vote}></Route>    
+                    </Switch>
                 </div>
-              <FooterComponent />
         </Router>
     </div>
+    
   );
 }
 
