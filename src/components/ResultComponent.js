@@ -37,6 +37,10 @@ class ResultComponent extends React.Component
     });
     }
 
+    back(){
+        this.props.history.push('/campaigns');
+    }
+
     array()
             {
                 if(this.state.series.length===0)
@@ -51,6 +55,7 @@ class ResultComponent extends React.Component
     {
         return(    
         <div>
+            <button className="btn btn-danger" onClick={this.back.bind(this)} style={{marginTop: "10px",width: "100px"}}>Back</button>
             <h1 className="text-center">Campaign List</h1>
             <table className="table table-striped">
                 <thead>

@@ -28,14 +28,18 @@ class vote extends React.Component
    console.log(event.target.value);
 }
 
+back(){
+  this.props.history.push('/campaigns');
+}
 render() {
 
   return (     
     <div>
-      <h1 >
+      <button className="btn btn-danger" onClick={this.back.bind(this)} style={{marginTop: "10px",width: "100px"}}>Back</button>
+      <h1 className="text-center">
       {this.state.campaign.campaignName}
       </h1>
-      <body>
+      <body className="text-center">
       {
         this.state.options.map((item) => 
         <p key={item}>
