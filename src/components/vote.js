@@ -11,7 +11,7 @@ class vote extends React.Component
 
     componentDidMount()
     {
-        CampaignService.getCampaignId(this.state.id).then((response)=>{this.setState({campaign:response.data})
+        CampaignService.getCampaignById(this.state.id).then((response)=>{this.setState({campaign:response.data})
     });
         OptionService.getOptionsByCampaign(this.state.id).then((response)=>{this.setState({options:response.data})
     });
@@ -32,7 +32,7 @@ render() {
 
   return (     
     <div>
-      <h1>
+      <h1 >
       {this.state.campaign.campaignName}
       </h1>
       <body>

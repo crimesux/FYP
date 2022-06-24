@@ -1,14 +1,9 @@
-import axios from "axios";
+import axios from 'axios';
 
-const CAMPAIGN_API_BASE_URL="http://localhost:8080/api/v1/campaigns";
-const USER_API_BASE_URL="http://localhost:8080/api/v1/users";
+const USER_API_BASE_URL = "http://localhost:8080/api/v1/users"
+const CAMPAIGN_API_BASE_URL = "http://localhost:8080/api/v1/campaigns";
 
-class CampaignService
-{
-    getCampaignId(campaignId)
-    {
-        return axios.get(CAMPAIGN_API_BASE_URL + "/" + campaignId);
-    }
+class CampaignService {
 
     getCampaigns(){
         return axios.get(CAMPAIGN_API_BASE_URL);
@@ -16,6 +11,10 @@ class CampaignService
 
     getCampaignsByUser(userId){
         return axios.get(USER_API_BASE_URL + '/' + userId + '/campaigns');
+    }
+
+    createCampaignTest(campaign){
+        return axios.post(USER_API_BASE_URL + '/2/campaigns', campaign);
     }
 
     createCampaign(userId, campaign){
@@ -41,5 +40,10 @@ class CampaignService
     deleteCampaign(campaignId){
         return axios.delete(CAMPAIGN_API_BASE_URL + '/' + campaignId);
     }
+
+    launchCampaign(campaignId){
+        return axios.put(CAMPAIGN_API_BASE_URL + '/' + campaignId + '/launchCampaign/Pending');
+    }
 }
-export default new CampaignService();
+
+export default new CampaignService()

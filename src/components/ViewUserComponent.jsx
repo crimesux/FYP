@@ -26,22 +26,22 @@ class ViewUserComponent extends Component {
                     <div className = "card-body">
                         <div className = "row">
                             <label> User Name: </label>
-                            <div> { this.state.user.userName }</div>
+                            <div style={{marginLeft: "10px"}}> { this.state.user.userName }</div>
                         </div>
                         <div className = "row">
                             <label> Password: </label>
-                            <div> { this.state.user.userPW }</div>
+                            <div style={{marginLeft: "10px"}}> { this.state.user.userPW }</div>
                         </div>
                         <div className = "row">
                             <label> Email Address: </label>
-                            <div> { this.state.user.email }</div>
+                            <div style={{marginLeft: "10px"}}> { this.state.user.email }</div>
                         </div>
                         <div className = "row">
                             <label> User Type: </label>
-                            <div> { this.state.user.userType }</div>
+                            <div style={{marginLeft: "10px"}}> { this.state.user.userType }</div>
                         </div>
                     </div>
-
+                    
                 </div>
             </div>
         )
