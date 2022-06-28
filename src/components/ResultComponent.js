@@ -38,7 +38,7 @@ class ResultComponent extends React.Component
     }
 
     back(){
-        this.props.history.push('/campaigns');
+        this.props.history.push('/voter-list');
     }
 
     array()
