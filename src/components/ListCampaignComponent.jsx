@@ -37,6 +37,11 @@ class ListCampaignComponent extends Component {
         });
     }
 
+    options(id)
+    {
+        this.props.history.push(`/options/${id}`);
+    }
+
     componentDidMount(){
         CampaignService.getCampaigns().then((res) => {
             this.setState({ campaigns: res.data});
@@ -80,7 +85,6 @@ class ListCampaignComponent extends Component {
                                              <td> {campaign.campaignStatus}</td>
                                              <td>
                                                  <button onClick={ () => this.viewCampaign(campaign.id)} className="btn btn-info">View </button>
-                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.options(campaign.id)} className="btn btn-info">Options </button>
                                                  <button style={{marginLeft: "10px"}} onClick={ () => this.editCampaign(campaign.id)} className="btn btn-info">Update </button>
                                                  <button style={{marginLeft: "10px"}} onClick={ () => this.launchCampaign(campaign.id)} className="btn btn-info">Launch </button>
                                                  <button style={{marginLeft: "10px"}} onClick={ () => this.voteResults(campaign.id)} className="btn btn-info">Vote </button>
