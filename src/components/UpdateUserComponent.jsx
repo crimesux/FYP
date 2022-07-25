@@ -10,7 +10,7 @@ class UpdateUserComponent extends Component {
             userName: '',
             userPW: '',
             email: '',
-            userType: ''
+            contact:'',
         }
         this.changeUserNameHandler = this.changeUserNameHandler.bind(this);
         this.changeUserPWHandler = this.changeUserPWHandler.bind(this);
@@ -23,18 +23,19 @@ class UpdateUserComponent extends Component {
             this.setState({userName: user.userName,
                 userPW: user.userPW,
                 email : user.email,
-                userType : user.userType
+                userType : user.userType,
+                contact: user.contact
             });
         });
     }
 
     updateUser = (e) => {
         e.preventDefault();
-        let user = {userName: this.state.userName, userPW: this.state.userPW, email: this.state.email, userType: this.state.userType};
+        let user = {userName: this.state.userName, userPW: this.state.userPW, email: this.state.email, userType: this.state.userType,contact: this.state.contact};
         console.log('user => ' + JSON.stringify(user));
         console.log('id => ' + JSON.stringify(this.state.id));
         UserService.updateUser(user, this.state.id).then( res => {
-            this.props.history.push('/users');
+            this.props.history.push(`/voter-list/${this.state.id}`);
         });
     }
     
@@ -50,12 +51,12 @@ class UpdateUserComponent extends Component {
         this.setState({email: event.target.value});
     }
 
-    changeUserTypeHandler= (event) => {
-        this.setState({userType: event.target.value});
+    changeContactHandler= (event) => {
+        this.setState({contact: event.target.value});
     }
 
     cancel(){
-        this.props.history.push('/users');
+        this.props.history.push(`/voter-list/${this.state.id}`);
     }
 
     render() {
@@ -84,9 +85,9 @@ class UpdateUserComponent extends Component {
                                                 value={this.state.email} onChange={this.changeEmailHandler}/>
                                         </div>
                                         <div className = "form-group">
-                                            <label> User Type: </label>
-                                            <input placeholder="User Type" name="userType" className="form-control" 
-                                                value={this.state.userType} onChange={this.changeUserTypeHandler}/>
+                                            <label> Contact Number: </label>
+                                            <input placeholder="Contact Number" name="contact" className="form-control" 
+                                                value={this.state.contact} onChange={this.changeContactHandler}/>
                                         </div>
 
                                         <button className="btn btn-success" onClick={this.updateUser}>Save</button>

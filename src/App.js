@@ -15,6 +15,7 @@ import OptionsComponent from './components/OptionsComponent';
 import ResultComponent from './components/ResultComponent';
 import vote from './components/vote';
 import VoterListComponent from './components/VoterListComponent';
+import View from './components/view';
 function App() {
   
   return (
@@ -35,7 +36,8 @@ function App() {
                           <Route path = "/options/:id" component = {OptionsComponent}></Route>
                           <Route path = "/result/:id" component = {ResultComponent}></Route>
                           <Route path = "/vote/:id" component = {vote}></Route> 
-                          <Route path = "/voter-list" component = {VoterListComponent}></Route>   
+                          <Route path = "/voter-list/:id" component = {VoterListComponent}></Route> 
+                          <Route path = "/view/:id/:userid" component = {View}></Route>      
                     </Switch>
                 </div>
         </Router>
