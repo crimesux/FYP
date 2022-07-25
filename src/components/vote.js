@@ -6,7 +6,7 @@ class vote extends React.Component
   constructor(props)
     {
         super(props)
-        this.state={id: this.props.match.params.id, choice:"" , campaign:[], options:[]}
+        this.state={id: this.props.match.params.id, choice:"" , campaign:[], options:[],currentDate : new Date(), alert:""}
     }
 
     componentDidMount()
@@ -17,19 +17,37 @@ class vote extends React.Component
     });
     }
 
-  update=()=>
+  update(status)
   {
-    OptionService.updateVote(this.state.id,this.state.choice)
-  }  
+    if(status==="Open")
+    {
+      this.state.alert =""
+      OptionService.updateVote(this.state.id,this.state.choice)
+    }
+    else
+    {
+      this.state.alert = "The campaign has been closed, please exit to see results"
+    }
+  } 
+
+  compare()
+  {
+    var date =
+                ("00" + (this.state.currentDate.getMonth() + 1)).slice(-2)
+                + "/" + ("00" + this.state.currentDate.getDate()).slice(-2)
+                + "/" + this.state.currentDate.getFullYear() + " "
+                + ("00" + this.state.currentDate.getHours()).slice(-2) + ":"
+                + ("00" + this.state.currentDate.getMinutes()).slice(-2)
+                + ":" + ("00" + this.state.currentDate.getSeconds()).slice(-2);
+  } 
 
   setter(event) 
   {
    this.setState({choice:event.target.value})
-   console.log(event.target.value);
 }
 
 back(){
-  this.props.history.push('/voter-list');
+  this.props.history.push('/voter-list/1');
 }
 render() {
 
@@ -50,11 +68,10 @@ render() {
         onClick={this.setter.bind(this)}/> {item.optionDesc} 
         </p>
         )}
-      <br></br><button className="btn" onClick={this.update}>Submit</button>     
+      <br></br><button className="btn" onClick={this.update(this.state.campaign.campaignStatus)}>Submit</button>
+      <p className="text-center">{this.state.alert}</p>
       </body>
       </div>
-      
-
     )
     
    
