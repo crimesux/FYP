@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.Voter;
 
-
-
 @Repository
 public interface VoterRepository extends JpaRepository<Voter, Long>{
 	List<Voter> findByCampaignId(Long postCampaignId);

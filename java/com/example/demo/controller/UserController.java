@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import com.example.demo.model.User;
 import com.example.demo.model.UserType;
 import com.example.demo.repository.UserRepository;
 
 import Exception.ResourceNotFoundException;
-
 
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -36,7 +36,7 @@ public class UserController {
 		return userRepository.save(user);
 	}
 	
-	// get user by id restapi
+	// get user by id rest api
 	@GetMapping("/users/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable Long id) {
 		User user = userRepository.findById(id)
@@ -54,7 +54,7 @@ public class UserController {
 		user.setUserPW(userDetails.getUserPW());
 		user.setEmail(userDetails.getEmail());
 		user.setUserType(userDetails.getUserType());
-		
+		user.setContact(userDetails.getContact());
 		User updatedUser = userRepository.save(user);
 		return ResponseEntity.ok(updatedUser);
 	}

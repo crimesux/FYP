@@ -8,15 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import com.example.demo.model.Campaign;
+import com.example.demo.model.CampaignStatus;
 import com.example.demo.model.User;
+import com.example.demo.model.UserType;
 import com.example.demo.model.Voter;
 import com.example.demo.repository.CampaignRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.VoterRepository;
 
 import Exception.ResourceNotFoundException;
-
 
 
 @CrossOrigin(origins = "http://localhost:3000")

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,13 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import com.example.demo.model.Campaign;
+import com.example.demo.model.CampaignStatus;
 import com.example.demo.model.Option;
 import com.example.demo.repository.CampaignRepository;
 import com.example.demo.repository.OptionRepository;
-
+import com.example.demo.service.Encryption;
 import Exception.ResourceNotFoundException;
-
 
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -45,8 +47,15 @@ public class OptionController {
 	    if (!campaignRepository.existsById(campaign_id)) {
 	      throw new ResourceNotFoundException("Campaign " + campaign_id + " Not Found");
 	    }
-	
+	    Encryption paillier = new Encryption();
+	    BigInteger key = paillier.KeyGen(32, 64);
 	    List<Option> options = optionRepository.findByCampaignId(campaign_id);
+	    for (int i = 0; i < options.size(); i++)
+	    {
+	    long m1 = options.get(i).getVoteCount();
+	    BigInteger ccc =BigInteger.valueOf(m1);
+	    options.get(i).setVoteCount(paillier.Decrypt(ccc).longValue());
+	    }
 	    return ResponseEntity.ok(options);
 	}
 		
@@ -58,28 +67,52 @@ public class OptionController {
 		
 		option.setOptionDesc(options.getOptionDesc());
 		
-		
 		Option updatedOption= optionRepository.save(option);
 		return ResponseEntity.ok(updatedOption);
 	}
-	
+
+	// increment the selected option's vote count by one rest api
 	@PutMapping("/campaigns/{campaign_id}/options")
 	public ResponseEntity<List<Option>> voteOption(@PathVariable(value = "campaign_id") Long campaign_id, @RequestBody String choice){
 		if (!campaignRepository.existsById(campaign_id)) {
 		      throw new ResourceNotFoundException("Campaign " + campaign_id + " Not Found");
 		    }
+		Encryption paillier = new Encryption();
 		
 		List<Option> options = optionRepository.findByCampaignId(campaign_id);
 		for (int i = 0; i < options.size(); i++) {
 		    if(choice.equalsIgnoreCase(options.get(i).getOptionDesc())) 
 		    {
-		    	options.get(i).setVoteCount(options.get(i).getVoteCount()+1);
+		    	long m3 = options.get(i).getVoteCount();
+		    	if(m3!=0) 
+		    	{
+		    		BigInteger key = paillier.KeyGen(32, 64);
+		    		int m12=1;
+					String m1 =String.valueOf(m12);
+			        BigInteger m2 = new BigInteger(m1);
+			        BigInteger c1 = paillier.Encrypt(m2);
+			        BigInteger c2= paillier.Encrypt(BigInteger.valueOf(m3));
+		    		BigInteger c = paillier.CiperMultiply(c1, c2);
+		    		options.get(i).setVoteCount(c.longValue());
+		    		options.get(i).setKey(key.longValue());
+		    	}else 
+		    	{
+		    		BigInteger key = paillier.KeyGen(32, 64);
+		    		int m12=1;
+					String m1 =String.valueOf(m12);
+			        BigInteger m2 = new BigInteger(m1);
+			        BigInteger c1 = paillier.Encrypt(m2);
+			        options.get(i).setVoteCount(c1.longValue());
+		    		options.get(i).setKey(key.longValue());
+		    	}
+		    		
+		    	
 		    }
 		}
 		optionRepository.saveAll(options);
 		return ResponseEntity.ok(options);
 	}
-
+	
 	// delete option rest api
 	@DeleteMapping("/options/{id}")
 	public ResponseEntity<Map<String, Boolean>> deleteOption(@PathVariable Long id){
@@ -103,6 +136,5 @@ public class OptionController {
 	    response.put("deleted", Boolean.TRUE);
 	    return ResponseEntity.ok(response);
 	}
-	
 	
 }

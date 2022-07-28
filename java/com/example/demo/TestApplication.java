@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.demo.repository.UserRepository;
-
+import com.example.demo.model.Option;
 
 @SpringBootApplication
 public class TestApplication implements CommandLineRunner{
@@ -22,7 +22,6 @@ public class TestApplication implements CommandLineRunner{
 		/*rRepository.save(new Result(1,1,"qn1"));
 		rRepository.save(new Result(100,160,"qn2"));
 		uRepository.save(new User("sean","ong","@gmail",UserType.Voter));*/
-		
 		
 	}
 	

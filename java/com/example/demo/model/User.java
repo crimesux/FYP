@@ -9,26 +9,34 @@ public class User {
 	@Column(name="user_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
+	
 	@Column(name="user_name", nullable = false)
 	private String userName;
+	
 	@Column(name="user_password", nullable = false)	
 	private String userPW;
+	
 	@Column(name="email", nullable = false)	
 	private String email;
+	
+	@Column(name="contact", nullable = true)	
+	private String contact;
+	
 	@Column(name="user_type")
 	@Enumerated(EnumType.ORDINAL)
-    private UserType userType = UserType.Voter;
+    	private UserType userType = UserType.Voter;
 	
 	public User() {
 		
 	}
 	
-	public User(String userName, String userPW, String email, UserType userType) {
+	public User(String userName, String userPW, String email,String contact, UserType userType) {
 		super();
 		this.userName = userName;
 		this.userPW = userPW;
 		this.email = email;
 		this.userType = userType;
+		this.contact=contact;
 	}
 	
 	public long getId() {
@@ -61,6 +69,11 @@ public class User {
 	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
-	
+	public String getContact() {
+		return contact;
+	}
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
 	
 }

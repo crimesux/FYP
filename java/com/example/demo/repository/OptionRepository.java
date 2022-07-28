@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.Option;
 
-
-
 @Repository
 public interface OptionRepository extends JpaRepository<Option, Long>{
 	List<Option> findByCampaignId(Long postCampaignId);

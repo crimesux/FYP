@@ -5,6 +5,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.*;
@@ -16,13 +17,18 @@ public class Campaign {
 	@Column(name="campaign_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
+	
 	@Column(name="campaign_name", nullable = false)
 	private String campaignName;
+	
+	@JsonFormat(pattern="dd-MM-yyyy")
 	@Column(name="closing_date", nullable = false)	
 	private Date deadline;
+	
 	@Column(name="campaign_status")
 	@Enumerated(EnumType.ORDINAL)
-    private CampaignStatus campaignStatus = CampaignStatus.Open;
+   	private CampaignStatus campaignStatus = CampaignStatus.Open;
+	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)

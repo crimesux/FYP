@@ -1,4 +1,5 @@
 package com.example.demo.model;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.OnDelete;
@@ -25,9 +26,10 @@ public class Voter {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	Campaign campaign;
+	
 	@Column(name="vote_status")
-	@Enumerated(EnumType.ORDINAL)
-    private VoteStatus voteStatus = VoteStatus.Pending;
+	@Enumerated(EnumType.STRING)
+    	private VoteStatus voteStatus = VoteStatus.Pending;
 	
 	public Voter() {
 		
@@ -61,7 +63,7 @@ public class Voter {
 	public VoteStatus getVoteStatus() {
 		return voteStatus;
 	}
-	public void setVoteStatus(VoteStatus votetStatus) {
+	public void setVoteStatus(VoteStatus voteStatus) {
 		this.voteStatus = voteStatus;
 	}
 	
