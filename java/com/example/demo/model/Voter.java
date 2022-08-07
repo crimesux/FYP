@@ -15,21 +15,21 @@ public class Voter {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
-	User user;
+	private User user;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "campaign_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
-	Campaign campaign;
+	private Campaign campaign;
 	
 	@Column(name="vote_status")
 	@Enumerated(EnumType.STRING)
-    	private VoteStatus voteStatus = VoteStatus.Pending;
+    private VoteStatus voteStatus = VoteStatus.Pending;
 	
 	public Voter() {
 		

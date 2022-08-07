@@ -47,11 +47,13 @@ public class OptionController {
 	    if (!campaignRepository.existsById(campaign_id)) {
 	      throw new ResourceNotFoundException("Campaign " + campaign_id + " Not Found");
 	    }
+	    
 	    Encryption paillier = new Encryption();
 	    BigInteger key = paillier.KeyGen(32, 64);
 	    List<Option> options = optionRepository.findByCampaignId(campaign_id);
 	    for (int i = 0; i < options.size(); i++)
 	    {
+	    	
 	    long m1 = options.get(i).getVoteCount();
 	    BigInteger ccc =BigInteger.valueOf(m1);
 	    options.get(i).setVoteCount(paillier.Decrypt(ccc).longValue());
@@ -94,7 +96,6 @@ public class OptionController {
 			        BigInteger c2= paillier.Encrypt(BigInteger.valueOf(m3));
 		    		BigInteger c = paillier.CiperMultiply(c1, c2);
 		    		options.get(i).setVoteCount(c.longValue());
-		    		options.get(i).setKey(key.longValue());
 		    	}else 
 		    	{
 		    		BigInteger key = paillier.KeyGen(32, 64);
@@ -103,7 +104,6 @@ public class OptionController {
 			        BigInteger m2 = new BigInteger(m1);
 			        BigInteger c1 = paillier.Encrypt(m2);
 			        options.get(i).setVoteCount(c1.longValue());
-		    		options.get(i).setKey(key.longValue());
 		    	}
 		    		
 		    	

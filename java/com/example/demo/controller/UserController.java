@@ -55,6 +55,7 @@ public class UserController {
 		user.setEmail(userDetails.getEmail());
 		user.setUserType(userDetails.getUserType());
 		user.setContact(userDetails.getContact());
+		
 		User updatedUser = userRepository.save(user);
 		return ResponseEntity.ok(updatedUser);
 	}
@@ -73,7 +74,7 @@ public class UserController {
 	
 	// get by user type rest api
 	@GetMapping("/users/findByUserType/{userType}")
-    public List<User> findAllVoters(@PathVariable("UserType") UserType userType) {
+    public List<User> findAllVoters(@PathVariable("userType") UserType userType) {
         return userRepository.findByUserType(userType);
     }
 	

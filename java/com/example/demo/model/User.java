@@ -19,24 +19,23 @@ public class User {
 	@Column(name="email", nullable = false)	
 	private String email;
 	
-	@Column(name="contact", nullable = true)	
+	@Column(name="contact", nullable = false)	
 	private String contact;
 	
 	@Column(name="user_type")
-	@Enumerated(EnumType.ORDINAL)
-    	private UserType userType = UserType.Voter;
+	@Enumerated(EnumType.STRING)
+    private UserType userType = UserType.Voter;
 	
 	public User() {
 		
 	}
 	
-	public User(String userName, String userPW, String email,String contact, UserType userType) {
+	public User(String userName, String userPW, String email, UserType userType) {
 		super();
 		this.userName = userName;
 		this.userPW = userPW;
 		this.email = email;
 		this.userType = userType;
-		this.contact=contact;
 	}
 	
 	public long getId() {
