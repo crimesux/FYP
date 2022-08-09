@@ -66,7 +66,6 @@ class VoterListComponent extends Component {
         </div>
     }
         render() {
-            console.log(this.state.campaigns)
             return (
                 <div>                
                      <h2 className="text-center">Campaigns List</h2>

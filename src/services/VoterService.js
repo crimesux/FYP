@@ -35,7 +35,14 @@ class VoterService {
     }
 
     getCampaignByVoter(userId){
-        return axios.get(USER_API_BASE_URL + '/' + userId + '/voters/campaigns')
+        return axios.get(USER_API_BASE_URL + '/' + userId + '/voters/campaigns');
+    }
+    getVoter(userId,campaignId){
+        return axios.get(USER_API_BASE_URL + '/' + userId + '/campaigns/' + campaignId + '/voters');
+    }
+    
+    voted(userId,campaignId){
+        return axios.put(USER_API_BASE_URL + '/' + userId + '/campaigns/' + campaignId + '/voters');
     }
 }
 

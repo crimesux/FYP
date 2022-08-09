@@ -1,22 +1,26 @@
 import React from "react";
 import OptionService from "../services/OptionService";
 import CampaignService from "../services/CampaignService";
+import VoterService from '../services/VoterService'
 class voteComponent extends React.Component
 {  
   constructor(props)
     {
         super(props)
         this.state={
-          choice:"" , campaign:[], options:[],alert:""
+          choice:"" , campaign:[], options:[],alert:"",voter:[]
         }
     }
 
     componentDidMount()
     {
+      const userid = localStorage.getItem("inputValue");
       const id = localStorage.getItem("campaign");
         CampaignService.getCampaignById(id).then((response)=>{this.setState({campaign:response.data})
     });
         OptionService.getOptionsByCampaign(id).then((response)=>{this.setState({options:response.data})
+    });
+        VoterService.getVoter(userid,id).then((res) => { this.setState({ voter: res.data});
     });
     }
 
@@ -36,14 +40,21 @@ class voteComponent extends React.Component
       }
     }
     }
+
   update()
   {
+    const userid = localStorage.getItem("inputValue");
     const id = localStorage.getItem("campaign");
+    if(this.state.campaign.campaignStatus === "Pending"){
+    if(this.state.voter.voteStatus !== 'Voted'){
       if(this.state.choice !=="")
     {
-      OptionService.updateVote(id,this.state.choice)
+      OptionService.updateVote(id,this.state.choice);
+      VoterService.voted(userid,id);
       this.props.navigate('/Voterpage');
     }
+    }else{this.setState({ alert: "You have voted"})}
+  }else{this.setState({ alert: "This poll has closed"})}
   } 
 
   setter(event) 
