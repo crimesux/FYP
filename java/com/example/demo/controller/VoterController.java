@@ -14,6 +14,7 @@ import com.example.demo.model.Campaign;
 import com.example.demo.model.CampaignStatus;
 import com.example.demo.model.User;
 import com.example.demo.model.UserType;
+import com.example.demo.model.VoteStatus;
 import com.example.demo.model.Voter;
 import com.example.demo.repository.CampaignRepository;
 import com.example.demo.repository.UserRepository;
@@ -109,7 +110,7 @@ public class VoterController {
 	    if (!userRepository.existsById(user_id)) {
 	      throw new ResourceNotFoundException("User " + user_id + " Not Found");
 	    }
-	    List<Campaign> campaigns=new ArrayList<>();;
+	    List<Campaign> campaigns=new ArrayList<>();
 	    List<Voter> voters = voterRepository.findByUserId(user_id);
 	    List<Campaign> campaign =campaignRepository.findAll();
 	    for (Voter v : voters) 
@@ -125,4 +126,52 @@ public class VoterController {
 	    return ResponseEntity.ok(campaigns);
 	}
 	
+	@GetMapping("/users/{user_id}/campaigns/{campaign_id}/voters")
+	public ResponseEntity<List<Voter>> getVoter(@PathVariable(value = "user_id") Long user_id, @PathVariable(value = "campaign_id") Long campaign_id) {
+	    if (!userRepository.existsById(user_id)) {
+	      throw new ResourceNotFoundException("User " + user_id + " Not Found");
+	    }
+	    if (!campaignRepository.existsById(campaign_id)) {
+		      throw new ResourceNotFoundException("Campaign " + campaign_id + " Not Found");
+		    }
+	    List<Voter> voters = voterRepository.findByUserId(user_id);
+	    List<Voter> vote = voterRepository.findByCampaignId(campaign_id);
+	    List<Voter> voter=new ArrayList<>();
+	    for(Voter v1 : voters) 
+	    {
+	    	for(Voter v2 : vote) 
+	    	{
+	    		if(v1 == v2) 
+	    		{
+	    			voter.add(v1);
+	    		}
+	    	}
+	    }
+	    
+	    return ResponseEntity.ok(voter);
+	}
+	@PutMapping("/users/{user_id}/campaigns/{campaign_id}/voters")
+	public ResponseEntity<List<Voter>> statusChange(@PathVariable(value = "user_id") Long user_id, @PathVariable(value = "campaign_id") Long campaign_id) 
+	{
+		if (!userRepository.existsById(user_id)) {
+		      throw new ResourceNotFoundException("User " + user_id + " Not Found");
+		    }
+		    if (!campaignRepository.existsById(campaign_id)) {
+			      throw new ResourceNotFoundException("Campaign " + campaign_id + " Not Found");
+			    }
+		    List<Voter> voters = voterRepository.findByUserId(user_id);
+		    List<Voter> vote = voterRepository.findByCampaignId(campaign_id);
+		    for(Voter v1 : voters) 
+		    {
+		    	for(Voter v2 : vote) 
+		    	{
+		    		if(v1 == v2) 
+		    		{
+		    			v1.setVoteStatus(VoteStatus.Voted);
+		    		}
+		    	}
+		    }
+		    voterRepository.saveAll(voters);
+		    return ResponseEntity.ok(voters);
+	}
 }
