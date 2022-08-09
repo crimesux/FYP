@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +65,7 @@ public class VoterController {
 	      throw new ResourceNotFoundException("User " + user_id + " Not Found");
 	    }
 	
-	    List<Voter> voters = voterRepository.findByCampaignId(user_id);
+	    List<Voter> voters = voterRepository.findByUserId(user_id);
 	    return ResponseEntity.ok(voters);
 	}
 
@@ -102,6 +103,26 @@ public class VoterController {
 	    Map<String, Boolean> response =  new HashMap<>();
 	    response.put("deleted", Boolean.TRUE);
 	    return ResponseEntity.ok(response);
+	}
+	@GetMapping("/users/{user_id}/voters/campaigns")
+	public ResponseEntity<List<Campaign>> getCampaignsByUserId(@PathVariable(value = "user_id") Long user_id) {
+	    if (!userRepository.existsById(user_id)) {
+	      throw new ResourceNotFoundException("User " + user_id + " Not Found");
+	    }
+	    List<Campaign> campaigns=new ArrayList<>();;
+	    List<Voter> voters = voterRepository.findByUserId(user_id);
+	    List<Campaign> campaign =campaignRepository.findAll();
+	    for (Voter v : voters) 
+	    {
+	    	for(Campaign c : campaign) 
+	    	{
+	    		if(v.getCampaign() == c) 
+	    		{
+	    			campaigns.add(c);
+	    		}
+	    	}
+	    }
+	    return ResponseEntity.ok(campaigns);
 	}
 	
 }
