@@ -19,9 +19,6 @@ public class User {
 	@Column(name="email", nullable = false)	
 	private String email;
 	
-	@Column(name="contact", nullable = false)	
-	private String contact;
-	
 	@Column(name="user_type")
 	@Enumerated(EnumType.STRING)
     private UserType userType = UserType.Voter;
@@ -68,11 +65,6 @@ public class User {
 	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
-	public String getContact() {
-		return contact;
-	}
-	public void setContact(String contact) {
-		this.contact = contact;
-	}
+	
 	
 }
