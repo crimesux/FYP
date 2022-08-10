@@ -10,7 +10,9 @@ class ResultComponent extends React.Component
     constructor(props)
     {
         super(props)
-        this.state={options:[], series:[], campaign: [], voter: [],
+        this.state=
+        {
+            options:[], series:[], campaign: [], voter: [],
             option: {
                 chart: {
                   width: 380,
@@ -29,10 +31,8 @@ class ResultComponent extends React.Component
                   }
                 }]
               },
-            
-            
-            };}
-    
+        };
+    }
             
     componentDidMount()
     {
@@ -49,73 +49,90 @@ class ResultComponent extends React.Component
     }
 
     back(){
-        this.props.navigate('/Voterpage');
+        this.props.navigate(-1);
     }
 
     array()
+    {
+        if(this.state.series.length===0)
+            for(var i of this.state.options)
             {
-                if(this.state.series.length===0)
-                for(var i of this.state.options)
-                {
-                    this.state.series.push(i.voteCount)
-                    this.state.option.labels.push(i.optionDesc)
-                }
-                
+                this.state.series.push(i.voteCount)
+                this.state.option.labels.push(i.optionDesc)
+            }
         }
     render()
     {
         return(    
-        <div className="p-1 my-1">
+            <div className="p-1 my-1">
             <div className="flex align-middle justify-end gap-x-1">
-            {this.array()}
-            <br></br>
-                    <button
-                    className="btn btn-dark"
-                     id="backBtn"
-                    onClick={this.back.bind(this)}
-                    >
-                    Back
-                    </button>
-                    <div class="card-header">Campaign Details</div>
-                    <div className = "card mt-2">
-                        <div className = "mb-3">
-                            <label> Campaign Name: </label>
-                            <div> { this.state.campaign.campaignName }</div>
-                        </div>
-                        <div className = "mb-3">
-                            <label> Closing Date: </label>
-                            <div> { this.state.campaign.deadline }</div>
-                        </div>
-                        <div className = "mb-3">
-                            <label> Campaign Status: </label>
-                            <div> { this.state.campaign.campaignStatus }</div>
-                        </div>
-                        <div className = "mb-3">
-                            <label> Options: </label>
-                            <div> 
-                                <table className="">
-                                    {
-                                        this.state.options.map(
-                                            option => 
-                                            <tr key = {option.id}>
-                                                <td> {option.optionDesc} </td>   
-                                            </tr>
-                                        )
-                                    }
-                                </table>
-                            </div>
-                            <td id="chart" classname="">
-                        {
-                            <ReactApexChart options={this.state.option} series={this.state.series} type="pie" width={380} />                                
-                        }
-                     </td>
-                        </div>
-                        
+              <button
+                className="btn btn-danger"
+                id="backBtn"
+                onClick={this.back.bind(this)}
+              >
+                Back
+              </button>
+            </div>
+            <div class="card mt-2">
+                {this.array()}
+                <div class="card-body">
+                <div class="mb-3">
+                    <label for="campaignName" class="form-label">
+                        Campaign Name
+                    </label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="campaignName"
+                        placeholder="Campaign Name"
+                        value={this.state.campaign.campaignName}
+                        readOnly
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="deadline" class="form-label">
+                    Closing Date
+                    </label>
+                    <input
+                    type="text"
+                    class="form-control"
+                    id="deadline"
+                    placeholder="Deadline"
+                    value={this.state.campaign.deadline}
+                    readOnly
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="options" class="form-label">
+                    Options
+                    </label>
+                    <div className="flex flex-col gap-y-1">
+                    {this.state.options.map((option) => (
+                        <input
+                        type="text"
+                        class="form-control"
+                        id="options"
+                        placeholder="Campaign Option"
+                        value={option.optionDesc}
+                        readOnly
+                        />
+                    ))}
                     </div>
-                </div> 
-                            
-        </div>
+                </div>
+                              <td id="chart" classname="">
+                          {
+                              <ReactApexChart options={this.state.option} series={this.state.series} type="pie" width={380} />                                
+                          }
+                          </td>
+                          </div>
+              {/* <div class="card-footer text-muted">
+                          2 days ago
+                      </div> */}
+            </div>
+          </div>
         )
     }
+    
 }
 export default ResultComponent

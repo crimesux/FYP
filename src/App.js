@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch, Routes } from 'react-router-dom'
+
 import Login from './components/Login/Login';
 import Header from './components/Header';
 
@@ -33,6 +34,7 @@ function App() {
           <div className="container content-center">
             <Routes> 
             <Route path="/" element={<Login/>}></Route>
+
             {isuserlogin&&<Route path="/users" element={<ListUserComponentFunctional />}></Route>}
             {isuserlogin&&<Route path="newUserForm" element={<NewUserForm/>}></Route>}
             {isuserlogin&&<Route path='userDetails' element={<UserDetails/>}></Route>}
@@ -43,7 +45,7 @@ function App() {
             {isuserlogin&&<Route path='campaignDetails' element={<CampaignDetails/>}></Route>}
             {isuserlogin&&<Route path='campaignModify' element={<ModifyCampaign/>}></Route>}
 
-            {isuserlogin&&<Route path="/Voterpage" element={<Voterpage/>}></Route>}
+            {isuserlogin&&<Route path="/voters" element={<Voterpage/>}></Route>}
             {isuserlogin&&<Route path = "voter" element = {<VoterListComponent/>}></Route>} 
             {isuserlogin&&<Route path="/Resultpage" element={<Resultpage/>}></Route>}
             {isuserlogin&&campaign&&<Route path = "result" element = {<ResultComponent/>}></Route>}

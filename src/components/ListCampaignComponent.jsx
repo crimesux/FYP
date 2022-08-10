@@ -31,14 +31,13 @@ class ListCampaignComponent extends Component {
   }
 
   launchCampaign(id) {
-    CampaignService.launchCampaign(id).then((res) => {
-      this.setState({
-        campaigns: this.state.campaigns.filter(
-          (campaign) => campaign.id !== id
-        ),
-      });
-    });
+   
   }
+
+  Results(id){
+    localStorage.setItem("campaign",id);
+    this.props.navigate("/Resultpage");
+}
 
   componentDidMount() {
     console.log(localStorage.getItem("inputValue"));
@@ -57,6 +56,42 @@ class ListCampaignComponent extends Component {
 
   addOption() {
     this.props.history.push("/options");
+  }
+
+  compare(status,type)
+  {
+    if(type==="launch")
+    {
+      if(status==="Open")
+      {
+      return ''
+      }
+      else 
+      {
+      return 'false'
+      }
+    }
+    else if(type==="result")
+    {
+      if(status==="Closed")
+      {
+      return ''
+      }
+      else 
+      {
+      return 'false'
+      }
+    }else if(type==="delete")
+    {
+      if(status==="Open")
+      {
+      return ''
+      }
+      else 
+      {
+      return 'false'
+      }
+    }
   }
 
   render() {
@@ -95,20 +130,26 @@ class ListCampaignComponent extends Component {
                       View{" "}
                     </button>
                     {/* <button onClick={() => this.props.navigate('/campaignDetails', { state: {campaign} })} className="btn btn-info">View </button> */}
-                    <button
+                    <button 
                       style={{ marginLeft: "10px" }}
-                      onClick={() => this.viewResults(campaign.id)}
                       className="btn btn-info"
+                      id="launchBtn"
+                      disabled={this.compare(campaign.campaignStatus,"launch")}
+                    >
+                      Launch{" "}
+                    </button>
+                    <button style={{marginLeft: "10px"}} 
+                    onClick={ () => this.Results(campaign.id, this.state.campaigns)} 
+                    disabled={this.compare(campaign.campaignStatus,"result")} 
+                    className="btn btn-info"
                     >
                       Results{" "}
                     </button>
                     <button
                       style={{ marginLeft: "10px" }}
-                      onClick={() => {
-                        if (window.confirm("Confirm to Delete?"))
-                          this.deleteCampaign(campaign.id);
-                      }}
+                      onClick={() => {if (window.confirm("Confirm to Delete?"))this.deleteCampaign(campaign.id);}}
                       className="btn btn-danger"
+                      disabled={this.compare(campaign.campaignStatus,"delete")}
                     >
                       Delete{" "}
                     </button>
