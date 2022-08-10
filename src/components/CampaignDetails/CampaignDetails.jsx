@@ -1,7 +1,6 @@
-import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useLocation, useNavigate } from "react-router-dom";
 import CampaignService from "../../services/CampaignService";
 
 export default function CampaignDetails() {
@@ -11,7 +10,7 @@ export default function CampaignDetails() {
 
   const {id,campaignName,campaignStatus,deadline,options,voters}=location.state.campaign;
   const [readOnly, setReadOnly] = useState(true);
-
+  
   useEffect(()=>{
     const fetchData = async()=>{
       const data = await CampaignService.getVoterByCampaign(id);
@@ -57,23 +56,40 @@ export default function CampaignDetails() {
           usagePurpose: "modify",
         },
       });
+    } else if (event.target.id === "launchBtn") {
+
     }
   };
+
 
   return (
     <div className="p-1 my-1">
       <div className="flex align-middle justify-end gap-x-1">
         <button
-          className="btn btn-dark"
+          className="btn btn-info"
           id="modifyBtn"
           onClick={dataChangeHandler}
+          disabled={campaignStatus!=="Open"}
         >
           Modify
         </button>
-        <button className="btn btn-dark">Launch</button>
-        <button className="btn btn-dark">View Results</button>
+        <button 
+          className="btn btn-info"
+          id="launchBtn"
+          onClick={dataChangeHandler}
+          disabled={campaignStatus!=="Open"}
+        >
+          Launch
+        </button>
+        <button 
+          className="btn btn-info"
+          id="resultBtn"
+          disabled={campaignStatus!="Closed"}
+        >
+          Results
+        </button>
         <button
-          className="btn btn-dark"
+          className="btn btn-danger"
           id="backBtn"
           onClick={dataChangeHandler}
         >
