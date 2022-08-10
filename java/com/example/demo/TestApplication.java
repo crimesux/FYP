@@ -15,14 +15,8 @@ public class TestApplication implements CommandLineRunner{
 		SpringApplication.run(TestApplication.class, args);
 	}
 	
-	@Autowired
-	private UserRepository uRepository;
 	@Override
 	public void run(String... args) throws Exception {
-		/*rRepository.save(new Result(1,1,"qn1"));
-		rRepository.save(new Result(100,160,"qn2"));
-		uRepository.save(new User("sean","ong","@gmail",UserType.Voter));*/
-		
 	}
 	
 
