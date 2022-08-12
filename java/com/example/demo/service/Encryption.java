@@ -81,23 +81,29 @@ public class Encryption {
      * @param certainty the probability to generate a prime number will exceed (1 - (1/2)^certainty)
      * @return g
      */
-    public BigInteger KeyGen(int bitLength, int certainty) {
-
-        this.bitLength = bitLength;
+    public BigInteger Keygen(int bitLength, int certainty) 
+    {
+    	this.bitLength = bitLength;
 
         /* p and q are primes */
-        p = new BigInteger(bitLength/2, certainty, new Random());
-        q = new BigInteger(bitLength/2, certainty, new Random());
+        this.p = new BigInteger(bitLength/2, certainty, new Random());
+        this.q = new BigInteger(bitLength/2, certainty, new Random());
 
         /* n = p*q */
-        n = p.multiply(q);
-        nSquare = n.multiply(n);
-
-        /* lambda = lcm(p-1, q-1) = (p-1)*(q-1)/gcd(p-1, q-1). */
-        lambda = ((p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE)))
+        this.n = p.multiply(q);
+        return nSquare = n.multiply(n);
+    }
+    public BigInteger Lambdagen() 
+    {
+    	/* lambda = lcm(p-1, q-1) = (p-1)*(q-1)/gcd(p-1, q-1). */
+        return lambda = ((p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE)))
                 .divide((p.subtract(BigInteger.ONE)).gcd(q.subtract(BigInteger.ONE)));
-
-
+    }
+    
+    public BigInteger KeyGen(int bitLength, int certainty) {
+    	this.nSquare=Keygen(bitLength,certainty);
+        this.lambda=Lambdagen();
+        
         /* g is a random in [0, nSquare), where gcd(L(g^lambda mod n^2), n) = 1.
         *  Attention, if g=2 or small g can speed up encryption.
         * */
@@ -110,6 +116,25 @@ public class Encryption {
             KeyGen(bitLength, certainty);
         }
 
+        u = L(g.modPow(lambda, nSquare)).modInverse(n);
+
+        return g;
+    }
+    
+    public BigInteger KeyGen(BigInteger nsquare, BigInteger lambda) {
+    	this.nSquare=nsquare.abs();
+        this.lambda=lambda;
+        this.n=nSquare.sqrt();
+        /* g is a random in [0, nSquare), where gcd(L(g^lambda mod n^2), n) = 1.
+        *  Attention, if g=2 or small g can speed up encryption.
+        * */
+//        g = new BigInteger(String.valueOf( (int) (Math.random()*randomRange)));
+        g =  new BigInteger("2");
+        
+        if ((g.intValue() < 0) || (L(g.modPow(lambda, nSquare)).gcd(n).intValue() != 1)) {
+//          System.out.println("g is not ok. g = " + g + ". try again.");
+          KeyGen(nsquare,lambda);
+      }
         u = L(g.modPow(lambda, nSquare)).modInverse(n);
 
         return g;
@@ -134,6 +159,10 @@ public class Encryption {
      * @return ciphertext
      */
     public BigInteger Encrypt (BigInteger m) {
+        BigInteger r = new BigInteger(bitLength, new Random());
+        return Encrypt(m, r);
+    }
+    public BigInteger Encrypt (BigInteger m, int bitLength) {
         BigInteger r = new BigInteger(bitLength, new Random());
         return Encrypt(m, r);
     }
@@ -177,6 +206,10 @@ public class Encryption {
     public BigInteger CiperMultiply (BigInteger c1, BigInteger c2) {
         return c1.multiply(c2).mod(nSquare);
     }
+    public BigInteger CiperMultiply (BigInteger c1, BigInteger c2, BigInteger nsquare) {
+        return c1.multiply(c2).mod(nsquare);
+    }
+    
 
 
 /*
