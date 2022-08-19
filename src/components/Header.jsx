@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +6,8 @@ import { useNavigate } from "react-router-dom";
 const Header = () => {
     const [show,setShow]=useState(false);
     const navigate = useNavigate();
-
     const islogin = localStorage.getItem("inputValue");
- 
+
     useEffect(()=>{
         if(islogin){
             setShow(true);
@@ -17,9 +16,14 @@ const Header = () => {
         }
     },[islogin])
 
+    const userView =()=>{
+      navigate("/userView");
+    }
+
     const removeItem =()=>{
-        navigate("/");
+        navigate("/", { replace: true });
         localStorage.removeItem("inputValue");
+        localStorage.removeItem("logged");
         localStorage.clear();
     }
 
@@ -32,16 +36,23 @@ const Header = () => {
               E-Voting App
             </a>
           </div>
-          {show&&<div className="navbar-brand">
-            Welcome {islogin}
+          {show&&<div>
+            <button
+              type="button"
+              className="btn btn-info"
+              onClick={userView}
+            >
+              Profile
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger"
+              style={{ marginLeft: "10px" }}
+              onClick={removeItem}
+            >
+              Logout
+            </button>
           </div>}
-          {show&&<button
-            type="button"
-            className="btn btn-danger"
-            onClick={removeItem}
-          >
-            Logout
-          </button>}
         </nav>
       </header>
     </div>

@@ -1,8 +1,8 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
-import VoteComponent from './VoteComponent';
+import VoterListComponent from './VoterListComponent';
 
 export default function ListCampaignComponentFunctional(props) {
     const navigate = useNavigate();
-    return <VoteComponent {...props} navigate={navigate}/>
+    return <VoterListComponent {...props} navigate={navigate}/>
 }

@@ -15,7 +15,8 @@ export default function NewUserForm() {
     const [data, setData] = useState({});
    	const navigate = useNavigate();
 
-    const dataChangeHandler = (event) => {
+
+       const dataChangeHandler = (event) => {
         if (event.target.id === 'userName') {
             setUserName(event.target.value);
         }
@@ -29,26 +30,38 @@ export default function NewUserForm() {
             setUserType(event.target.value);
         }
         else if (event.target.id === 'saveBtn') {
-            // console.log(user)
-           
-			const user = {
-                userName:userName,
-                userPW:userPW,
-                email:email,
-                userType:userType
-            }   
-			UserService.createUser(user).then((res)=>{console.log(res)});
-            setData({
-                userName,
-                userPW,
-                email,
-                userType
-            })
-            navigate("/users");
-        
+            if(userName === "")
+			{window.confirm('Please Enter a User Name');}
+			else if(userPW === "")
+			{window.confirm('Please Enter a Password');}
+            else if(email === "")
+			{window.confirm('Please Enter an Email');}
+			else if(userType === "")
+			{window.confirm('Please Select a User Type');}
+			else
+            {
+                // console.log(user)
+            
+                const user = {
+                    userName:userName,
+                    userPW:userPW,
+                    email:email,
+                    userType:userType
+                }   
+                UserService.createUser(user).then((res)=>{console.log(res)});
+                setData({
+                    userName,
+                    userPW,
+                    email,
+                    userType
+                })
+                navigate("/users");
+                window.location.reload();
+            }
 		}
         else if(event.target.id === 'backBtn') {
-            navigate(-1)
+            navigate("/users");
+            window.location.reload();
         }
     }
 
@@ -70,7 +83,12 @@ export default function NewUserForm() {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="userType" className="form-label font-semibold">User Type</label>
-                        <input onChange={dataChangeHandler} type="text" className="form-control" id="userType" value={userType} />
+                        <select onChange={dataChangeHandler} type="text" className="form-control" id="userType" value={userType}>
+                            <option value="" disabled selected>Select UserType</option>
+                            <option value="Voter">Voter</option>
+                            <option value="Host">Host</option>
+                            <option value="Admin">Admin</option>
+                        </select>
                     </div>
 					
                     <div className='flex align-middle gap-x-2 mt-2'>

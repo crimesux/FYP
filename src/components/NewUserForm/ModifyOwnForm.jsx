@@ -5,10 +5,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux/es/exports";
 import UserService from "../../services/UserService";
 
-export default function ModifyUser() {
+export default function ModifyOwn() {
   const location = useLocation();
-  const [userId, setUserId] = useState(
-    location.state ? location.state.userId : null
+  const [id, setId] = useState(
+    location.state ? location.state.id : ""
   );
   const [userName, setUserName] = useState(
     location.state ? location.state.userName : ""
@@ -36,8 +36,6 @@ export default function ModifyUser() {
       setUserPW(event.target.value);
     } else if (event.target.id === "email") {
       setEmail(event.target.value);
-    } else if (event.target.id === "userType") {
-      setUserType(event.target.value);
     } else if (event.target.id === "saveBtn") {
       if(userName === "")
 			{window.confirm('Please Enter a User Name');}
@@ -45,50 +43,59 @@ export default function ModifyUser() {
 			{window.confirm('Please Enter a Password');}
       else if(email === "")
 			{window.confirm('Please Enter an Email');}
-			else if(userType === "")
-			{window.confirm('Please Select a User Type');}
 			else
       {
         // console.log(user)
-
+        localStorage.removeItem("logged");
         const user = {
+          id: location.state.id,
           userName: userName,
           userPW: userPW,
           email: email,
           userType: userType,
         };
-        const logged = JSON.parse(localStorage.getItem("logged"));
         console.log(user);
         //   UserService.createUser(user.id, user).then((res) => {
         //     console.log(res);
         //   });
-        UserService.updateUser(user, location.state.id);
+        UserService.updateUser(user, user.id);
         setData({
+          id,
           userName,
           userPW,
           email,
           userType,
         });
-        if(location.state.id == logged.id)
+        localStorage.setItem("logged", JSON.stringify(user));
+        if(user.userType == "Admin")
         {
-          localStorage.removeItem("logged");
-          const log = {
-            id: location.state.id,
-            userName: userName,
-            userPW: userPW,
-            email: email,
-            userType: userType,
-          };
-          localStorage.setItem("logged", JSON.stringify(log));
           navigate("/users");
           window.location.reload();
-        } else {
-          navigate("/users");
+        }
+        else if(user.userType == "Host")
+        {
+          navigate("/campaigns");
+          window.location.reload();
+        }
+        else
+        {
+          navigate("/voters");
           window.location.reload();
         }
       }
     } else if (event.target.id === "backBtn") {
-      navigate("/users");
+      if(userType === "Admin")
+      {
+        navigate("/users");
+      }
+      else if(userType === "Host")
+      {
+        navigate("/campaigns");
+      }
+      else
+      {
+        navigate("/voters");
+      }
     }
   };
   
@@ -131,22 +138,6 @@ export default function ModifyUser() {
               id="email"
               value={email}
             />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="userType" className="form-label font-semibold">
-              User Type
-            </label>
-            <select 
-              onChange={dataChangeHandler} 
-              type="text" 
-              className="form-control" 
-              id="userType" 
-              value={userType}
-            >
-              <option value="Voter">Voter</option>
-              <option value="Host">Host</option>
-              <option value="Admin">Admin</option>
-            </select>
           </div>
           <div className="flex align-middle gap-x-2 mt-2">
             <button

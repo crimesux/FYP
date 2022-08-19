@@ -16,6 +16,12 @@ export default function ModifyCampaign() {
   const [campaignName, setCampaignName] = useState(
     location.state ? location.state.campaignName : ""
   );
+  const [campaignInfo, setCampaignInfo] = useState(
+    location.state ? location.state.campaignInfo : ""
+  );
+  const [campaignMedia, setCampaignMedia] = useState(
+    location.state ? location.state.campaignMedia : ""
+  );
   const [deadline, setDeadline] = useState(
     location.state ? location.state.deadline : ""
   );
@@ -26,16 +32,6 @@ export default function ModifyCampaign() {
   const [readonlyDeadline, setReadonlyDeadline] = useState(false);
   const user = useSelector((state) => state.user.user);
   const [searchData, setSearchData] = useState([]);
-
-  // when save button is clicked data is logged through this effect:
-  useEffect(() => {
-    // to log data only when the save button is clicked and to prevent logging of data when the component renders the first time
-
-    // To see whether we need to update the campaign or add a new campaign we see the field of campaignId, if it is null then it means that the data must be added i.e new row un the database, if it is not null it means the campaign with that campaignId must be modified
-    if (readonlyDeadline) {
-      // console.log(data);
-    }
-  }, [data]);
 
   console.log(location.state);
 
@@ -51,6 +47,10 @@ export default function ModifyCampaign() {
   const dataChangeHandler = (event) => {
     if (event.target.id === "campaignName") {
       setCampaignName(event.target.value);
+    } else if (event.target.id === "campaignInfo") {
+      setCampaignInfo(event.target.value);
+    } else if (event.target.id === "campaignMedia") {
+      setCampaignMedia(event.target.value);
     } else if (event.target.id === "deadline") {
       setDeadline(event.target.value);
     } else if (event.target.id === "addNewOption") {
@@ -63,35 +63,47 @@ export default function ModifyCampaign() {
         ]);
       }
     } else if (event.target.id === "saveBtn") {
-      setReadonlyDeadline(true);
-      // console.log(user)
+      if(campaignName === "")
+			{window.confirm('Please Enter a Campaign Name');}
+			else if(deadline === "")
+			{window.confirm('Please Enter a Deadline');}
+			else
+			{
+        setReadonlyDeadline(true);
+        // console.log(user)
 
-      const voterData = votersArray.map((item) => {
-        return { user: item.id, voteStatus: "Pending" };
-      });
-      const optData = optionsArray.map((item) => {
-        return { optionDesc: item.optionDesc, voteCount: "0" };
-      });
-      console.log(voterData);
-      console.log(optData);
-      const campaign = {
-        campaignName: campaignName,
-        deadline: deadline,
-        options: optData,
-        voters: voterData,
-      };
-      console.log(campaign);
-      //   CampaignService.createCampaign(user.id, campaign).then((res) => {
-      //     console.log(res);
-      //   });
-      CampaignService.updateCampaign(campaign, location.state.id);
-      setData({
-        campaignName,
-        deadline,
-        voters: votersArray,
-        options: optionsArray,
-      });
-      navigate("/campaigns");
+        const voterData = votersArray.map((item) => {
+          return { user: item.id, voteStatus: "Pending" };
+        });
+        const optData = optionsArray.map((item) => {
+          return { optionDesc: item.optionDesc, voteCount: "0" };
+        });
+        console.log(voterData);
+        console.log(optData);
+        const campaign = {
+          campaignName: campaignName,
+          campaignInfo: campaignInfo,
+          campaignMedia: campaignMedia,
+          deadline: deadline,
+          options: optData,
+          voters: voterData,
+        };
+        console.log(campaign);
+        //   CampaignService.createCampaign(user.id, campaign).then((res) => {
+        //     console.log(res);
+        //   });
+        CampaignService.updateCampaign(campaign, location.state.id);
+        setData({
+          campaignName,
+          campaignInfo,
+          campaignMedia,
+          deadline,
+          voters: votersArray,
+          options: optionsArray,
+        });
+        navigate("/campaigns");
+        window.location.reload();
+      }
     } else if (event.target.id === "backBtn") {
       navigate(-1);
     }
@@ -147,6 +159,30 @@ export default function ModifyCampaign() {
             />
           </div>
           <div className="mb-3">
+            <label htmlFor="campaignInfo" className="form-label font-semibold">
+              Campaign Information
+            </label>
+            <input
+              onChange={dataChangeHandler}
+              type="text"
+              className="form-control"
+              id="campaignInfo"
+              value={campaignInfo}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="campaignMedia" className="form-label font-semibold">
+              Campaign Media
+            </label>
+            <input
+              onChange={dataChangeHandler}
+              type="text"
+              className="form-control"
+              id="campaignMedia"
+              value={campaignMedia}
+            />
+          </div>
+          <div className="mb-3">
             <label htmlFor="deadline" className="form-label font-semibold">
               Deadline
             </label>
@@ -180,6 +216,14 @@ export default function ModifyCampaign() {
             {optionsArray.length > 0 && (
               <label className="form-label font-semibold">Options:</label>
             )}
+            <button
+              type="button"
+              className="btn btn-dark"
+              onClick={dataChangeHandler}
+              id="addNewOption"
+            >
+              Add
+            </button>
             <div className="flex align-middle gap-x-2 flex-wrap gap-y-2">
               {optionsArray.map((option) => (
                 <Option
@@ -191,14 +235,6 @@ export default function ModifyCampaign() {
                 />
               ))}
             </div>
-            <button
-              type="button"
-              className="btn btn-dark"
-              onClick={dataChangeHandler}
-              id="addNewOption"
-            >
-              Add
-            </button>
           </div>
           <div className="flex align-middle gap-x-2 mt-2">
             <button

@@ -1,9 +1,10 @@
+import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import React, { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CampaignService from "../../services/CampaignService";
 
-export default function CampaignDetails() {
+export default function View() {
   const [voterUser,setVoterUser] = useState([]); 
   const location = useLocation();
   const navigate = useNavigate();
@@ -14,14 +15,11 @@ export default function CampaignDetails() {
   useEffect(()=>{
     const fetchData = async()=>{
       const data = await CampaignService.getVoterByCampaign(id);
-      console.log(data.data);
       setVoterUser(data.data);
     }
     fetchData();
-  },[])
+  },[])  
 
-  console.log(voters);
-  
   function media(campaignMedia)
   {
     if(typeof(campaignMedia)==="string"){
@@ -44,57 +42,16 @@ export default function CampaignDetails() {
     }
   }
 
-//   const campaignId = location.state.campaignId;
-//   const campaignName = campaigns.find(
-//     (campaign) => campaign.id === campaignId
-//   ).campaignName;
-//   const campaignDetails = campaigns.find(
-//     (campaign) => campaign.id === campaignId
-//   ).campaignDetails;
-//   const options = campaigns.find(
-//     (campaign) => campaign.id === campaignId
-//   ).options;
-//   const deadline = campaigns.find(
-//     (campaign) => campaign.id === campaignId
-//   ).deadline;
-//   const voters = campaigns.find(
-//     (campaign) => campaign.id === campaignId
-//   ).voters;
-//   console.log(voters);
-
   const dataChangeHandler = (event) => {
     if (event.target.id === "backBtn") {
-      navigate("/campaigns");
-    } else if (event.target.id === "modifyBtn") {
-      navigate("/campaignModify", {
-        state: {
-          id,
-          campaignName,
-          campaignInfo,
-          campaignMedia,
-          campaignStatus,
-          options,
-          voters:voterUser,
-          deadline,
-          usagePurpose: "modify",
-        },
-      });
+      navigate("/voters");
     }
-  };
-
+}
   return (
     <div className="p-1 my-1">
       <div className="flex align-middle justify-end gap-x-1">
         <button
-          className="btn btn-info"
-          id="modifyBtn"
-          onClick={dataChangeHandler}
-          disabled={campaignStatus!=="Open"}
-        >
-          Modify
-        </button>
-        <button
-          className="btn btn-danger"
+          className="btn btn-dark"
           id="backBtn"
           onClick={dataChangeHandler}
         >
@@ -125,7 +82,7 @@ export default function CampaignDetails() {
               type="text"
               class="form-control"
               id="campaignInfo"
-              placeholder="Campaign Information"
+              placeholder="Campaign Info"
               readOnly={readOnly}
               value={campaignInfo}
             />
@@ -179,23 +136,7 @@ export default function CampaignDetails() {
               ))}
             </div>
           </div>
-          <div class="mb-3">
-            <label for="options" class="form-label">
-              Voters
-            </label>
-            <div className="flex flex-col gap-y-1">
-              {voterUser.map((voter) => (
-                <input
-                  type="text"
-                  class="form-control"
-                  id="voters"
-                  placeholder="Campaign Option"
-                  readOnly={readOnly}
-                  value={voter.userName}
-                />
-              ))}
-            </div>
-          </div>
+          
         </div>
         {/* <div class="card-footer text-muted">
                     2 days ago

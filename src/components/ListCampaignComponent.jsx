@@ -31,7 +31,19 @@ class ListCampaignComponent extends Component {
   }
 
   launchCampaign(id) {
-   
+    localStorage.setItem("campaign",id);
+    CampaignService.launchCampaign(id);
+    this.props.navigate("/campaigns");
+    localStorage.removeItem("campaign");
+    window.location.reload();
+  }
+
+  closeCampaign(id) {
+    localStorage.setItem("campaign",id);
+    CampaignService.closeCampaign(id);
+    this.props.navigate("/campaigns");
+    localStorage.removeItem("campaign");
+    window.location.reload();
   }
 
   Results(id){
@@ -81,7 +93,19 @@ class ListCampaignComponent extends Component {
       {
       return 'false'
       }
-    }else if(type==="delete")
+    }
+    else if(type==="close")
+    {
+      if(status==="Pending")
+      {
+      return ''
+      }
+      else 
+      {
+      return 'false'
+      }
+    }
+    else if(type==="delete")
     {
       if(status==="Open")
       {
@@ -104,7 +128,8 @@ class ListCampaignComponent extends Component {
             Add Campaign
           </button>
         </div>
-        <br></br>
+        <br>
+        </br>
         <div className="row">
           <table className="table table-striped table-bordered">
             <thead>
@@ -132,11 +157,21 @@ class ListCampaignComponent extends Component {
                     {/* <button onClick={() => this.props.navigate('/campaignDetails', { state: {campaign} })} className="btn btn-info">View </button> */}
                     <button 
                       style={{ marginLeft: "10px" }}
+                      onClick={ () => this.launchCampaign(campaign.id)} 
                       className="btn btn-info"
                       id="launchBtn"
                       disabled={this.compare(campaign.campaignStatus,"launch")}
                     >
                       Launch{" "}
+                    </button>
+                    <button 
+                      style={{ marginLeft: "10px" }}
+                      onClick={ () => this.closeCampaign(campaign.id)} 
+                      className="btn btn-info"
+                      id="closeBtn"
+                      disabled={this.compare(campaign.campaignStatus,"close")}
+                    >
+                      Close{" "}
                     </button>
                     <button style={{marginLeft: "10px"}} 
                     onClick={ () => this.Results(campaign.id, this.state.campaigns)} 
