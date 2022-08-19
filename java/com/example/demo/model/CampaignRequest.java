@@ -19,6 +19,10 @@ public class CampaignRequest {
 
     private String campaignName;
 
+    private String campaignInfo;
+    
+    private String campaignMedia;
+
     private Date deadline;
 
     private CampaignStatus campaignStatus = CampaignStatus.Open;
@@ -37,6 +41,46 @@ public class CampaignRequest {
 		this.id = id;
 	}
 
+	public String getCampaignName() {
+		return campaignName;
+	}
+
+	public void setCampaignName(String campaignName) {
+		this.campaignName = campaignName;
+	}
+
+	public String getCampaignInfo() {
+		return campaignInfo;
+	}
+
+	public void setCampaignInfo(String campaignInfo) {
+		this.campaignInfo = campaignInfo;
+	}
+
+	public String getCampaignMedia() {
+		return campaignMedia;
+	}
+
+	public void setCampaignMedia(String campaignMedia) {
+		this.campaignMedia = campaignMedia;
+	}
+
+	public Date getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
+	}
+
+	public CampaignStatus getCampaignStatus() {
+		return campaignStatus;
+	}
+
+	public void setCampaignStatus(CampaignStatus campaignStatus) {
+		this.campaignStatus = campaignStatus;
+	}
+
 	public List<Option> getOptions() {
 		return options;
 	}
@@ -52,30 +96,4 @@ public class CampaignRequest {
 	public void setVoters(List<VoterRequest> voters) {
 		this.voters = voters;
 	}
-
-	public CampaignStatus getCampaignStatus() {
-		return campaignStatus;
-	}
-
-	public void setCampaignStatus(CampaignStatus campaignStatus) {
-		this.campaignStatus = campaignStatus;
-	}
-
-	public Date getDeadline() {
-		return deadline;
-	}
-
-	public void setDeadline(Date deadline) {
-		this.deadline = deadline;
-	}
-
-	public String getCampaignName() {
-		return campaignName;
-	}
-
-	public void setCampaignName(String campaignName) {
-		this.campaignName = campaignName;
-	}
-
-	
 }

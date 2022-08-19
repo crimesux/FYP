@@ -1,4 +1,5 @@
 package com.example.demo.service;
+
 import java.math.BigInteger;
 import java.util.Random;
 import java.lang.Math;
@@ -218,7 +219,6 @@ public class Encryption {
         Encryption paillier = new Encryption();
     
         BigInteger key = paillier.KeyGen(32, 64);
-
         Scanner input = new Scanner(System.in);
         
         // Simple voting system, to be taken out when implemented
@@ -245,7 +245,6 @@ public class Encryption {
         }else if (str2.equals("C")) {
         	testing2 = 10000;
         }
-
         System.out.println("Choose one option : A B C ");
         String str3 = input.nextLine();
         
@@ -257,7 +256,6 @@ public class Encryption {
         }else if (str3.equals("C")) {
         	testing3 = 10000;
         }
-
         System.out.println("Choose one option : A B C ");
         String str4 = input.nextLine();
         input.close();
@@ -270,7 +268,6 @@ public class Encryption {
         }else if (str4.equals("C")) {
         	testing4 = 10000;
         }
-
         String testing11 = String.valueOf(testing1);
         String testing22 = String.valueOf(testing2);
         String testing33 = String.valueOf(testing3);
@@ -280,15 +277,12 @@ public class Encryption {
         System.out.println("Voter 2 chooses:" + str2);
         System.out.println("Voter 2 chooses:" + str3);
         System.out.println("Voter 2 chooses:" + str4);
-
         BigInteger m1 = new BigInteger(testing11);
         BigInteger m2 = new BigInteger(testing22);
         BigInteger m3 = new BigInteger(testing33);
         BigInteger m4 = new BigInteger(testing44);
-
         System.out.println("p: " + paillier.getP() + ", q: " + paillier.getQ() + ", n: " + paillier.getN() +
         ", g: " + paillier.getG() + ", lambda: " + paillier.getLambda() + ", u: " + paillier.getU());
-
         /**
          * PROPERTY ONE: additive homomorphic encryption.
          *  E(m1)*E(m2) = E(m1+m2).
@@ -299,22 +293,15 @@ public class Encryption {
         BigInteger c2 = paillier.Encrypt(m2);
         BigInteger c3 = paillier.Encrypt(m3);
         BigInteger c4 = paillier.Encrypt(m4);
-
         BigInteger c = paillier.CiperMultiply(c1, c2);
         BigInteger cc = paillier.CiperMultiply(c3, c4);
         BigInteger ccc = paillier.CiperMultiply(c, cc);
-
         System.out.println("c1(E(m1)): " + c1); 
         System.out.println("c2(E(m2)): " + c2);
         System.out.println("c3(E(m3)): " + c3);
         System.out.println("c4(E(m4)): " + c4);
         System.out.println("c(E(m1)*E(m2)*E(m3)*E(m4)): " + ccc);
-
         System.out.println("Decryption of the product of all encryption: " + paillier.Decrypt(ccc));
-
        
-
 */
     }
-
-

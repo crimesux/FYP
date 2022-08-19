@@ -1,17 +1,16 @@
 package com.example.demo.controller;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import com.example.demo.model.*;
 import com.example.demo.repository.VoterRepository;
-
-import Exception.ResourceNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
-
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.CampaignRepository;
 import com.example.demo.repository.UserRepository;
 
@@ -59,6 +58,14 @@ public class CampaignController {
 
 		if(null!=campaignRequest.getCampaignName()) {
 			saveCampaign.setCampaignName(campaignRequest.getCampaignName());
+		}
+
+		if(null!=campaignRequest.getCampaignInfo()) {
+			saveCampaign.setCampaignInfo(campaignRequest.getCampaignInfo());
+		}
+
+		if(null!=campaignRequest.getCampaignMedia()) {
+			saveCampaign.setCampaignMedia(campaignRequest.getCampaignMedia());
 		}
 
 		if(null!=campaignRequest.getDeadline()) {
@@ -140,7 +147,9 @@ public class CampaignController {
 
 		/*List<Option> optionsList = campaignDetails.getOptions();
 		if(null != campaignDetails.getOptions() && campaignDetails.getOptions().size()>0) {
+
 		//	List<Voter> votersList = campaignDetails.getVoters();
+
 			for (Option option : optionsList) {
 				option.setCampaign(campaign);
 			}
@@ -154,6 +163,8 @@ public class CampaignController {
 			}
 		}*//*
 		campaign.setCampaignName(campaignDetails.getCampaignName());
+		campaign.setCampaignInfo(campaignDetails.getCampaignInfo());
+		campaign.setCampaignMedia(campaignDetails.getCampaignMedia());
 		campaign.setDeadline(campaignDetails.getDeadline());
 		campaign.setCampaignStatus(campaignDetails.getCampaignStatus());
 		campaign.setOptions(optionsList);
@@ -163,15 +174,27 @@ public class CampaignController {
 	}
 	
 	// launch campaign rest api	
-	@PutMapping("/campaigns/{id}/launchCampaign/Pending")
-	public ResponseEntity<Campaign> launchCampaign(@PathVariable Long id, @RequestBody Campaign campaignDetails){
+	@PutMapping("/campaigns/{id}/launchCampaign")
+	public ResponseEntity<Campaign> launchCampaign(@PathVariable Long id){
 		Campaign campaign = campaignRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Campaign " + id + " Not Found"));
 		
-		campaign.setCampaignStatus(campaignDetails.getCampaignStatus());
-		
+		campaign.setCampaignStatus(CampaignStatus.Pending);
+
 		Campaign launchedCampaign = campaignRepository.save(campaign);
 		return ResponseEntity.ok(launchedCampaign);
+	}
+	
+	// close campaign simulation rest api	
+	@PutMapping("/campaigns/{id}/closeCampaign")
+	public ResponseEntity<Campaign> closeCampaign(@PathVariable Long id){
+		Campaign campaign = campaignRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Campaign " + id + " Not Found"));
+		
+		campaign.setCampaignStatus(CampaignStatus.Closed);
+
+		Campaign closedCampaign = campaignRepository.save(campaign);
+		return ResponseEntity.ok(closedCampaign);
 	}
 	
 	// delete campaign rest api
@@ -217,5 +240,9 @@ public class CampaignController {
 
 		return ResponseEntity.ok(users);
 	}
+
+
+
+
 		
 }
