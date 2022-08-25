@@ -35,4 +35,3 @@ On a new terminal, run the following command:
 On MySQL, create default account for admin purpose: run the following queries:
 INSERT INTO users (user_id, email, user_name, user_password, user_type) VALUES (NULL, 'admin.test@test.com', 'admin', 'adminPW', 'Admin');
 
-If you want to have remote access change all the localhost to your ip address which you can check in your cmd with ipconfig
