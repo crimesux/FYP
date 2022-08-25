@@ -1,0 +1,38 @@
+Installation guide
+In this installation guide we have included what to install and the steps for installation. Click on the respective links for detailed guidance on how to install the programs.
+
+Programs to install:
+An integrated development environment (IDE) 
+Visual Studio installation link: (https://code.visualstudio.com/docs/?dv=win)
+Install extension inside Visual studio Marketplace or the Manage Extensions dialog box in Visual Studio:
+Spring Boot Dashboard
+Spring Boot Tools
+ES7+ React/Redux/React-Native Snippets
+MySQL Workbench
+Installation link: https://dev.mysql.com/downloads/installer/
+Installation guide: https://medium.com/co-learning-lounge/download-install-mysql-installer-workbench-on-windows-latest-f347f7e9e3a2
+Apache Maven
+Installation link: https://maven.apache.org/download.cgi
+Installation guide: https://maven.apache.org/install.html
+Node.js
+Installation link: https://nodejs.org/en/download/ 
+Installation guide: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm 
+
+After installation:
+Create database in local host in MySQL
+
+Run Spring Boot Code: Click on Spring on the left and click run
+ 
+
+Run ReactJS Code
+On a new terminal, run the following command:
+		cd frontend
+		npm install
+		npm install react-apexcharts –-save
+npm install react-router-dom@6
+		npm start
+    
+On MySQL, create default account for admin purpose: run the following queries:
+INSERT INTO users (user_id, email, user_name, user_password, user_type) VALUES (NULL, 'admin.test@test.com', 'admin', 'adminPW', 'Admin');
+
+If you want to have remote access change all the localhost to your ip address which you can check in your cmd with ipconfig
