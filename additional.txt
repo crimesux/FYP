@@ -29,7 +29,7 @@ On a new terminal, run the following command:
 		cd frontend
 		npm install
 		npm install react-apexcharts –-save
-npm install react-router-dom@6
+		npm install react-router-dom@6
 		npm start
     
 On MySQL, create default account for admin purpose: run the following queries:
