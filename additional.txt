@@ -5,15 +5,11 @@ Programs to install:
 An integrated development environment (IDE) 
 Visual Studio installation link: (https://code.visualstudio.com/docs/?dv=win)
 Install extension inside Visual studio Marketplace or the Manage Extensions dialog box in Visual Studio:
-Spring Boot Dashboard
-Spring Boot Tools
+Spring Boot Extension Pack
 ES7+ React/Redux/React-Native Snippets
 MySQL Workbench
 Installation link: https://dev.mysql.com/downloads/installer/
 Installation guide: https://medium.com/co-learning-lounge/download-install-mysql-installer-workbench-on-windows-latest-f347f7e9e3a2
-Apache Maven
-Installation link: https://maven.apache.org/download.cgi
-Installation guide: https://maven.apache.org/install.html
 Node.js
 Installation link: https://nodejs.org/en/download/ 
 Installation guide: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm 
